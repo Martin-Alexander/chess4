@@ -1,4 +1,4 @@
-class BoardSquares
+class Board
 
   BLANK = ('a'..'h').each_with_object({}) do |letter, o|
     (1..8).to_a.each { |number| o[(letter + number.to_s).to_sym] = Square.new(:empty) }
@@ -22,7 +22,7 @@ class BoardSquares
   def square(key, value = nil)
     validate_square(key)
     if value.nil?
-      @data[key].dup
+      @data[key]
     else
       validate_value(value)
       @data[key] = value
@@ -50,7 +50,7 @@ class BoardSquares
 
   def validate_value(value)
     unless value.is_a? Square || value.zero
-      raise ArgumentError.new "invalid value #{value} for BoardSquares. Must be of class Square"
+      raise ArgumentError.new "invalid value #{value} for Board. Must be of class Square"
     end
   end
 
@@ -61,6 +61,6 @@ class BoardSquares
   end
 
   def to_square(rank, file)
-    ((rank + 96).chr + (file).to_s).to_sym
+    ((file + 96).chr + (rank).to_s).to_sym
   end
 end

@@ -1,13 +1,13 @@
 require_relative '../lib/app'
 
 describe "board", :board do
-  class BoardSquares
+  class Board
     attr_accessor :data
   end
 
   context "initialization" do
     it "should initialize to empty board by default" do
-      board = BoardSquares.new
+      board = Board.new
       board.data.values.each do |square| 
         expect(square.empty?).to be true
       end
@@ -15,7 +15,7 @@ describe "board", :board do
   end
 
   context "'[]' method" do
-    let(:board) { BoardSquares.new }
+    let(:board) { Board.new }
     it "should allow reading" do
       board.data[:a1] = Square.new(:black, :king)
       expect(board[1, 1]).to be_instance_of(Square)
@@ -38,12 +38,12 @@ describe "board", :board do
     end
 
     it "should raise an error when invalid piece" do
-      expect { board[1, 1] =  1 }.to raise_error ArgumentError, "invalid value 1 for BoardSquares. Must be of class Square"
+      expect { board[1, 1] =  1 }.to raise_error ArgumentError, "invalid value 1 for Board. Must be of class Square"
     end
   end
 
   context "'square' method" do
-    let(:board) { BoardSquares.new }
+    let(:board) { Board.new }
     it "should allow reading" do
       board.data[:a1] = Square.new(:black, :king)
       expect(board.square(:a1)).to be_instance_of(Square)
@@ -61,7 +61,7 @@ describe "board", :board do
     end
 
     it "should raise an error when invalid piece" do
-      expect { board.square(:a1, 1) }.to raise_error ArgumentError, "invalid value 1 for BoardSquares. Must be of class Square"
+      expect { board.square(:a1, 1) }.to raise_error ArgumentError, "invalid value 1 for Board. Must be of class Square"
     end
   end
 end

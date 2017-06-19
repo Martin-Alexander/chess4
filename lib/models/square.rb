@@ -5,9 +5,10 @@ class Square
     if type.to_sym == :empty
       raise ArgumentError.new "empty squares cannot contain other attributes" unless piece.nil?
       @color = nil
+      @piece = nil
       @empty = true
     else
-      @empty = true
+      @empty = false
       @color = type.to_sym
       validate_color
       @piece = piece.to_sym
@@ -45,6 +46,14 @@ class Square
 
   def is_king?
     self.piece == :king
+  end
+
+  def to_s
+    if self.empty?
+      "Empty"
+    else
+      "#{@color.to_s.capitalize} #{@piece.to_s.capitalize}"
+    end
   end
 
   private

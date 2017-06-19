@@ -44,6 +44,13 @@ describe "square", :square do
       end
     end
 
+    it "'empty? should determine if square is empty" do
+      empty_square = Square.new(:empty)
+      expect(empty_square.empty?).to be true
+      normail_square = Square.new(:white, :king)
+      expect(normail_square.empty?).to be false
+    end
+
     it "'piece_is?' should determine if square type is included in array" do
       square = Square.new(:black, :king)
       expect(square.piece_is? [:king, :bishop, :rook]).to be true
