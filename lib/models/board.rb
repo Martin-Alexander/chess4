@@ -1,15 +1,11 @@
 class BoardSquares
-  def initialize
-    @data = {
-      a8: 0, b8: 0, c8: 0, d8: 0, e8: 0, f8: 0, g8: 0, h8: 0,   
-      a7: 0, b7: 0, c7: 0, d7: 0, e7: 0, f7: 0, g7: 0, h7: 0,
-      a6: 0, b6: 0, c6: 0, d6: 0, e6: 0, f6: 0, g6: 0, h6: 0,
-      a5: 0, b5: 0, c5: 0, d5: 0, e5: 0, f5: 0, g5: 0, h5: 0,
-      a4: 0, b4: 0, c4: 0, d4: 0, e4: 0, f4: 0, g4: 0, h4: 0,
-      a3: 0, b3: 0, c3: 0, d3: 0, e3: 0, f3: 0, g3: 0, h3: 0,
-      a2: 0, b2: 0, c2: 0, d2: 0, e2: 0, f2: 0, g2: 0, h2: 0,
-      a1: 0, b1: 0, c1: 0, d1: 0, e1: 0, f1: 0, g1: 0, h1: 0
-    }
+
+  BLANK = ('a'..'h').each_with_object({}) do |letter, o|
+    (1..8).to_a.each { |number| o[(letter + number.to_s).to_sym] = Square.new(:empty) }
+  end
+
+  def initialize(data = BLANK)
+    @data = data
   end
 
   def [](rank, file)
@@ -53,13 +49,13 @@ class BoardSquares
   end
 
   def validate_value(value)
-    unless value.is_a? Piece || value.zero
-      raise ArgumentError.new "invalid value #{value} for BoardSquares. Must be 0 or of class Piece"
+    unless value.is_a? Square || value.zero
+      raise ArgumentError.new "invalid value #{value} for BoardSquares. Must be of class Square"
     end
   end
 
   def validate_square(square)
-    unless ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'].include?(square.to_s[0]) && (1..8).to_a.include?(square.to_s[1].to_i)
+    unless ('a'..'h').to_a.include?(square.to_s[0]) && (1..8).to_a.include?(square.to_s[1].to_i)
       raise ArgumentError.new "invalid square #{square.to_s}"
     end
   end

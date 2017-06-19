@@ -1,57 +1,67 @@
 require_relative '../lib/app'
-require_relative '../lib/app'
-
-class BoardSquares
-  attr_accessor :data
-end
 
 describe "board", :board do
-  it "'[]' method should allow reading" do
-    board = BoardSquares.new
-    board.data[:a1] = Piece.new
-    expect(board[1, 1]).to be_instance_of(Piece)
+  class BoardSquares
+    attr_accessor :data
   end
 
-  it "'[]' method should allow writting" do
-    board = BoardSquares.new
-    board[1, 1] = Piece.new
-    expect(board.data[:a1]).to be_instance_of(Piece)
+  context "initialization" do
+    it "should initialize to empty board by default" do
+      board = BoardSquares.new
+      board.data.values.each do |square| 
+        expect(square.empty?).to be true
+      end
+    end
   end
 
-  it "'[]' method should raise an error when out of bound" do
-    board = BoardSquares.new
-    expect { board[0, 1] }.to raise_error ArgumentError, "invalid rank:0 or file:1"
-    expect { board[1, 0] }.to raise_error ArgumentError, "invalid rank:1 or file:0"
-    expect { board[1, 9] }.to raise_error ArgumentError, "invalid rank:1 or file:9"
-    expect { board[9, 1] }.to raise_error ArgumentError, "invalid rank:9 or file:1"
-    expect { board[0, 1] = 0 }.to raise_error ArgumentError, "invalid rank:0 or file:1"
-    expect { board[1, 0] = 0 }.to raise_error ArgumentError, "invalid rank:1 or file:0"
-    expect { board[1, 9] = 0 }.to raise_error ArgumentError, "invalid rank:1 or file:9"
-    expect { board[9, 1] = 0 }.to raise_error ArgumentError, "invalid rank:9 or file:1"
+  context "'[]' method" do
+    let(:board) { BoardSquares.new }
+    it "should allow reading" do
+      board.data[:a1] = Square.new(:black, :king)
+      expect(board[1, 1]).to be_instance_of(Square)
+    end
+
+    it "should allow writting" do
+      board[1, 1] = Square.new(:black, :king)
+      expect(board.data[:a1]).to be_instance_of(Square)
+    end
+
+    it "should raise an error when out of bounds" do
+      expect { board[0, 1] }.to raise_error ArgumentError, "invalid rank:0 or file:1"
+      expect { board[1, 0] }.to raise_error ArgumentError, "invalid rank:1 or file:0"
+      expect { board[1, 9] }.to raise_error ArgumentError, "invalid rank:1 or file:9"
+      expect { board[9, 1] }.to raise_error ArgumentError, "invalid rank:9 or file:1"
+      expect { board[0, 1] = Square.new(:empty) }.to raise_error ArgumentError, "invalid rank:0 or file:1"
+      expect { board[1, 0] = Square.new(:empty) }.to raise_error ArgumentError, "invalid rank:1 or file:0"
+      expect { board[1, 9] = Square.new(:empty) }.to raise_error ArgumentError, "invalid rank:1 or file:9"
+      expect { board[9, 1] = Square.new(:empty) }.to raise_error ArgumentError, "invalid rank:9 or file:1"
+    end
+
+    it "should raise an error when invalid piece" do
+      expect { board[1, 1] =  1 }.to raise_error ArgumentError, "invalid value 1 for BoardSquares. Must be of class Square"
+    end
   end
 
-  it "'[]' method should raise an error when invalid piece" do
-    board = BoardSquares.new
-    expect { board[1, 1] =  1 }.to raise_error ArgumentError, "invalid value 1 for BoardSquares. Must be 0 or of class Piece"
-  end
+  context "'square' method" do
+    let(:board) { BoardSquares.new }
+    it "should allow reading" do
+      board.data[:a1] = Square.new(:black, :king)
+      expect(board.square(:a1)).to be_instance_of(Square)
+    end
 
-  it "'square' method should allow reading" do
-    board = BoardSquares.new
-    board.data[:a1] = Piece.new
-    expect(board.square(:a1)).to be_instance_of(Piece)
-  end
+    it "should allow writting" do
+      board.square(:a1, Square.new(:black, :king))
+      expect(board.data[:a1]).to be_instance_of(Square)
+    end
 
-  it "'square' method should allow writting" do
-    board = BoardSquares.new
-    board.square(:a1, Piece.new)
-    expect(board.data[:a1]).to be_instance_of(Piece)
-  end
+    it "should raise an error when invalid square" do
+      expect { board.square(:i1) }.to raise_error ArgumentError, "invalid square i1"
+      expect { board.square(:a0) }.to raise_error ArgumentError, "invalid square a0"
+      expect { board.square(:a9) }.to raise_error ArgumentError, "invalid square a9"
+    end
 
-  it "'square' method raise an error when invalid square" do
-    board = BoardSquares.new
-    expect{ board.square(:i1) }.to raise_error ArgumentError, "invalid square i1"
-    expect{ board.square(:a0) }.to raise_error ArgumentError, "invalid square a0"
-    expect{ board.square(:a9) }.to raise_error ArgumentError, "invalid square a9"
+    it "should raise an error when invalid piece" do
+      expect { board.square(:a1, 1) }.to raise_error ArgumentError, "invalid value 1 for BoardSquares. Must be of class Square"
+    end
   end
-
 end
