@@ -1,9 +1,10 @@
 class GameState
-  def initialize(board, castling, en_passant)
+  def initialize(board, castling, en_passant, white_to_move)
     if MODEL_VALIDATIONS
       validate_board(board)
       validate_castling(castling)
       validate_en_passant(en_passant)
+      validate_white_to_move(white_to_move)
     end
   end
 
@@ -26,6 +27,12 @@ class GameState
   def validate_en_passant(square)
     unless validate_square(square)
       raise ArgumentError.new "invalid en passant square"
+    end
+  end
+
+  def validate_white_to_move(white_to_move)
+    unless white_to_move == true || white_to_move == false
+      raise ArgumentError.new "invalid white to move"
     end
   end
 
