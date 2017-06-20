@@ -57,10 +57,8 @@ class Board
   end
 
   def list_of_squares_symbols
-    if MODEL_VALIDATIONS
-      ('a'..'h').each_with_object([]) do |letter, obj|
-        (1..8).to_a.each { |number| obj << (letter + number.to_s).to_sym }
-      end
+    ('a'..'h').each_with_object([]) do |letter, obj|
+      (1..8).to_a.each { |number| obj << (letter + number.to_s).to_sym }
     end
   end
 
