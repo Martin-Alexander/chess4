@@ -38,6 +38,21 @@ class Board
     end
   end
 
+  def to_s
+    puts "_______B_O_A_R_D_______"
+    data_array.each do |row|
+      row.each do |square| 
+        if square.empty?
+          print "-- "
+        else 
+          print "#{square.to_sym} "
+        end
+      end
+      puts
+    end
+    puts 
+  end
+
   private
 
   def data_array
@@ -103,12 +118,6 @@ class Board
 
   def to_square(rank, file)
     ((file + 96).chr + (rank).to_s).to_sym
-  end
-
-  def to_s
-    @data.values.each do |s|
-
-    end
   end
 
   def print_square(square)
