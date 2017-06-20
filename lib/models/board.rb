@@ -1,31 +1,40 @@
 class Board
-
-  BLANK = ('a'..'h').each_with_object({}) do |letter, o|
-    (1..8).to_a.each { |number| o[(letter + number.to_s).to_sym] = Square.new(:empty) }
-  end
-
-  def initialize(data = BLANK)
-    @data = data
-  end
-
-  def [](rank, file)
-    validate_rank_file(rank, file) 
-    data_array[rank - 1][file - 1]
-  end
-
-  def []=(rank, file, value)
-    validate_rank_file(rank, file)
-    validate_value(value)
-    @data[to_square(rank, file)] = value
-  end
-
-  def square(key, value = nil)
-    validate_square(key)
-    if value.nil?
-      @data[key]
+  def initialize(data = standard_board)
+    if data == :empty
+      empty_array = []
+      64.times { empty_array << :em }
+      @data = load_data(empty_array)
     else
-      validate_value(value)
-      @data[key] = value
+      if MODEL_VALIDATIONS
+        raise ArgumentError.new "board data must be of type Array" unless data.is_a?(Array)
+        raise ArgumentError.new "invalid length #{data.length} for board data" unless data.length == 64
+        data.each do |value|
+          validate_value(Square.new(value))
+        end
+      end
+      @data = load_data(data)
+    end
+  end
+
+  def [](x, y = false)
+    if x.is_a?(Symbol) && y == false
+      validate_square(x)
+      @data[x]
+    else x.is_a?(Integer) && y.is_a?(Integer)
+      validate_rank_file(x, y) 
+      data_array[x - 1][y - 1]
+    end
+  end
+
+  def []=(x, y = false, z)
+    if x.is_a?(Symbol) && y == false
+      validate_square(x)
+      validate_value(z)
+      @data[x] = z
+    else 
+      validate_rank_file(x, y)
+      validate_value(z)
+      @data[to_square(x, y)] = z
     end
   end
 
