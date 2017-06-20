@@ -11,7 +11,7 @@ describe "game state", :game_state do
 
     it "should require that 'board' be a Board object" do
       expect { GameState.new(board, castling_hash, :e3) }.not_to raise_error
-      expect { GameState.new(4, castling_hash, :e3) }.to raise_error ArgumentError, "invalid board 4:Fixnum. Must be of type board"
+      expect { GameState.new(4, castling_hash, :e3) }.to raise_error ArgumentError, "invalid board 4:Fixnum. Must be of type Board"
     end
 
     it "should require that 'castling_hash' to have the correct format" do
