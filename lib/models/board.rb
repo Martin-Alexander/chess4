@@ -49,8 +49,21 @@ class Board
     output.reverse
   end
 
+  def load_data(pieces)
+    squares = list_of_squares_symbols.reverse
+    (0..63).each_with_object({}) do |i, obj|
+      obj[squares[i]] = Square.new(pieces[i])
+    end
+  end
+
+  def list_of_squares_symbols
+    ('a'..'h').each_with_object([]) do |letter, obj|
+      (1..8).to_a.each { |number| obj << (letter + number.to_s).to_sym }
+    end
+  end
+
   def validate_rank_file(rank, file)
-    if rank > 8 || rank < 1 || file > 8 || file < 1
+    if rank > 8 || rank < 1 || file > 8 || file < 1 && rank.is_a?(Integer) && file.is_a?(Integer)
       raise ArgumentError.new "invalid rank:#{rank} or file:#{file}"
     else
       true
@@ -58,7 +71,7 @@ class Board
   end
 
   def validate_value(value)
-    unless value.is_a? Square || value.zero
+    unless value.is_a? Square
       raise ArgumentError.new "invalid value #{value} for Board. Must be of class Square"
     end
   end
@@ -69,7 +82,34 @@ class Board
     end
   end
 
+  def standard_board 
+    [
+      :br, :bn, :bb, :bq, :bk, :bb, :bn, :br,
+      :bp, :bp, :bp, :bp, :bp, :bp, :bp, :bp,
+      :em, :em, :em, :em, :em, :em, :em, :em, 
+      :em, :em, :em, :em, :em, :em, :em, :em, 
+      :em, :em, :em, :em, :em, :em, :em, :em,
+      :em, :em, :em, :em, :em, :em, :em, :em, 
+      :wp, :wp, :wp, :wp, :wp, :wp, :wp, :wp, 
+      :wr, :wn, :wb, :wq, :wk, :wb, :wn, :wr
+    ]
+  end
+
   def to_square(rank, file)
     ((file + 96).chr + (rank).to_s).to_sym
+  end
+
+  def to_s
+    @data.values.each do |s|
+
+    end
+  end
+
+  def print_square(square)
+    if square.to_i > 0
+      " #{square.to_i}"
+    else
+      "#{square.to_i}"
+    end
   end
 end

@@ -13,7 +13,7 @@ describe "move", :move do
 
     it "should require that start square and end square be valid squares" do
       expect { (Move.new(:a1, :a2, false, false)) }.not_to raise_error
-      expect { (Move.new(:a9, :a2, false, false)) }.to raise_error ArgumentError
+      expect { (Move.new(:a9, :a2, false, false)) }.to raise_error ArgumentError 
       expect { (Move.new(:i1, :a2, false, false)) }.to raise_error ArgumentError
       expect { (Move.new(:a1, :a0, false, false)) }.to raise_error ArgumentError
       expect { (Move.new(:a1, :k2, false, false)) }.to raise_error ArgumentError
@@ -33,6 +33,7 @@ describe "move", :move do
 
     it "should requre that capture be a boolean" do
       expect { (Move.new(:a1, :a2, false, false)) }.not_to raise_error
+      expect { (Move.new(:a1, :a2, false, true)) }.not_to raise_error
       expect { (Move.new(:a1, :a2, false, 0)) }.to raise_error ArgumentError
     end
   end

@@ -6,23 +6,71 @@ describe "board", :board do
   end
 
   context "initialization" do
-    it "should initialize to empty board by default" do
+    let(:standard_board) { [
+      :br, :bn, :bb, :bq, :bk, :bb, :bn, :br,
+      :bp, :bp, :bp, :bp, :bp, :bp, :bp, :bp,
+      :em, :em, :em, :em, :em, :em, :em, :em, 
+      :em, :em, :em, :em, :em, :em, :em, :em, 
+      :em, :em, :em, :em, :em, :em, :em, :em,
+      :em, :em, :em, :em, :em, :em, :em, :em, 
+      :wp, :wp, :wp, :wp, :wp, :wp, :wp, :wp, 
+      :wr, :wn, :wb, :wq, :wk, :wb, :wn, :wr
+    ] }
+
+    let(:test_board) { [
+      :em, :em, :em, :em, :em, :em, :em, :em,
+      :em, :em, :em, :em, :em, :bk, :wp, :em,
+      :em, :em, :em, :em, :em, :em, :em, :em, 
+      :em, :wk, :em, :em, :em, :em, :em, :em, 
+      :em, :em, :em, :em, :em, :em, :em, :em,
+      :em, :em, :em, :em, :em, :em, :em, :em, 
+      :em, :em, :wk, :em, :em, :em, :em, :em, 
+      :em, :em, :em, :em, :em, :em, :wr, :em
+    ] }
+
+    it "should initialize to standard board by default" do
       board = Board.new
-      board.data.values.each do |square| 
+      board.data.values.each_with_index do |square, i| 
+        expect(square.to_sym).to be(standard_board[i])
+      end
+      expect(board[:a1].to_s).to eq("White Rook")
+      expect(board[:h8].to_s).to eq("Black Rook")
+    end
+
+    it "should initialize to empty board when given ':empty'" do
+      board = Board.new(:empty)
+      board.data.values.each do |square|
         expect(square.empty?).to be true
       end
     end
+
+    it "should initialize with array of symbols" do
+      board = Board.new(test_board)
+      expect(board.data.values.map{ |i| i.to_sym }).to eq(test_board)
+    end
+
+    it "should requre a 64-length array" do
+      expect { Board.new(test_board) }.not_to raise_error
+      test_board << :em
+      expect { Board.new(test_board) }.to raise_error ArgumentError
+    end
+
+    it "should require array to contain valid squares" do
+      expect { Board.new(test_board) }.not_to raise_error
+      test_board[0] = :jk
+      expect { Board.new(test_board) }.to raise_error ArgumentError
+    end
   end
 
-  context "'[]' method" do
+  context "'[]' method with rank and file" do
     let(:board) { Board.new }
     it "should allow reading" do
-      board.data[:a1] = Square.new(:black, :king)
+      board.data[:a1] = Square.new(:bk)
       expect(board[1, 1]).to be_instance_of(Square)
     end
 
     it "should allow writting" do
-      board[1, 1] = Square.new(:black, :king)
+      board[1, 1] = Square.new(:bk)
       expect(board.data[:a1]).to be_instance_of(Square)
     end
 
@@ -31,10 +79,10 @@ describe "board", :board do
       expect { board[1, 0] }.to raise_error ArgumentError, "invalid rank:1 or file:0"
       expect { board[1, 9] }.to raise_error ArgumentError, "invalid rank:1 or file:9"
       expect { board[9, 1] }.to raise_error ArgumentError, "invalid rank:9 or file:1"
-      expect { board[0, 1] = Square.new(:empty) }.to raise_error ArgumentError, "invalid rank:0 or file:1"
-      expect { board[1, 0] = Square.new(:empty) }.to raise_error ArgumentError, "invalid rank:1 or file:0"
-      expect { board[1, 9] = Square.new(:empty) }.to raise_error ArgumentError, "invalid rank:1 or file:9"
-      expect { board[9, 1] = Square.new(:empty) }.to raise_error ArgumentError, "invalid rank:9 or file:1"
+      expect { board[0, 1] = Square.new(:em) }.to raise_error ArgumentError, "invalid rank:0 or file:1"
+      expect { board[1, 0] = Square.new(:em) }.to raise_error ArgumentError, "invalid rank:1 or file:0"
+      expect { board[1, 9] = Square.new(:em) }.to raise_error ArgumentError, "invalid rank:1 or file:9"
+      expect { board[9, 1] = Square.new(:em) }.to raise_error ArgumentError, "invalid rank:9 or file:1"
     end
 
     it "should raise an error when invalid piece" do
@@ -42,26 +90,26 @@ describe "board", :board do
     end
   end
 
-  context "'square' method" do
+  context "'[]' method with square symbol" do
     let(:board) { Board.new }
     it "should allow reading" do
-      board.data[:a1] = Square.new(:black, :king)
-      expect(board.square(:a1)).to be_instance_of(Square)
+      board.data[:a1] = Square.new(:bk)
+      expect(board[:a1]).to be_instance_of(Square)
     end
 
     it "should allow writting" do
-      board.square(:a1, Square.new(:black, :king))
+      board[:a1] = Square.new(:bk)
       expect(board.data[:a1]).to be_instance_of(Square)
     end
 
     it "should raise an error when invalid square" do
-      expect { board.square(:i1) }.to raise_error ArgumentError, "invalid square i1"
-      expect { board.square(:a0) }.to raise_error ArgumentError, "invalid square a0"
-      expect { board.square(:a9) }.to raise_error ArgumentError, "invalid square a9"
+      expect { board[:i1] }.to raise_error ArgumentError, "invalid square i1"
+      expect { board[:a0] }.to raise_error ArgumentError, "invalid square a0"
+      expect { board[:a9] }.to raise_error ArgumentError, "invalid square a9"
     end
 
     it "should raise an error when invalid piece" do
-      expect { board.square(:a1, 1) }.to raise_error ArgumentError, "invalid value 1 for Board. Must be of class Square"
+      expect { board[:a1] = 1 }.to raise_error ArgumentError, "invalid value 1 for Board. Must be of class Square"
     end
   end
 end
