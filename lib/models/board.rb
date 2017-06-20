@@ -57,28 +57,36 @@ class Board
   end
 
   def list_of_squares_symbols
-    ('a'..'h').each_with_object([]) do |letter, obj|
-      (1..8).to_a.each { |number| obj << (letter + number.to_s).to_sym }
+    if MODEL_VALIDATIONS
+      ('a'..'h').each_with_object([]) do |letter, obj|
+        (1..8).to_a.each { |number| obj << (letter + number.to_s).to_sym }
+      end
     end
   end
 
   def validate_rank_file(rank, file)
-    if rank > 8 || rank < 1 || file > 8 || file < 1 && rank.is_a?(Integer) && file.is_a?(Integer)
-      raise ArgumentError.new "invalid rank:#{rank} or file:#{file}"
-    else
-      true
+    if MODEL_VALIDATIONS
+      if rank > 8 || rank < 1 || file > 8 || file < 1 && rank.is_a?(Integer) && file.is_a?(Integer)
+        raise ArgumentError.new "invalid rank:#{rank} or file:#{file}"
+      else
+        true
+      end
     end
   end
 
   def validate_value(value)
-    unless value.is_a? Square
-      raise ArgumentError.new "invalid value #{value} for Board. Must be of class Square"
+    if MODEL_VALIDATIONS
+      unless value.is_a? Square
+        raise ArgumentError.new "invalid value #{value} for Board. Must be of class Square"
+      end
     end
   end
 
   def validate_square(square)
-    unless ('a'..'h').to_a.include?(square.to_s[0]) && (1..8).to_a.include?(square.to_s[1].to_i)
-      raise ArgumentError.new "invalid square #{square.to_s}"
+    if MODEL_VALIDATIONS
+      unless ('a'..'h').to_a.include?(square.to_s[0]) && (1..8).to_a.include?(square.to_s[1].to_i)
+        raise ArgumentError.new "invalid square #{square.to_s}"
+      end
     end
   end
 
