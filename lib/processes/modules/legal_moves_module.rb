@@ -7,10 +7,10 @@ module LegalMovesModule
 
     setup
 
-    turnplayer_pieces.each do |square|
+    turnplayer_squares.each do |square|
       moves_of(square).each do |move|
         print move
-        # if is_legal?(move)
+        # if king_safe?(move)
         #   all_legal_moves << move
         # end 
       end
@@ -20,15 +20,16 @@ module LegalMovesModule
   def setup
     @turnplayer_color = @game_state.white_to_move ? :white : :black 
     @board = @game_state.board
+    p @board.to_s
   end
 
-  def turnplayer_pieces
+  def turnplayer_squares
     start_time = Time.now
 
     output = []
-    each_rankfile do |rank, file|
-      if @board[rank, file].color == @turnplayer_color
-        output << @board[rank, file]
+    each_square do |square|
+      if @board[square].color == @turnplayer_color
+        output << Square.new(square)
       end
     end
 
@@ -36,30 +37,40 @@ module LegalMovesModule
   end
 
   def moves_of(square)
-    send(square.piece)
+    send(@board[square.symbol].piece, square)
   end
 
-  def pawn
-    []
+  def king_safe?
   end
 
-  def knight
-    []
+  def pawn(square)
+    output = []
+    move_one = @board.white_to_move? 1 : -1
+    move_two = @board.white_to_move? 2 : -2
+    rank, file = square.rank, square.file
+
+    if @board[rank + move_one, file].empty?
+      output << Move.new(square, square[move_one, 0])
+    end
   end
 
-  def bishop
-    []
+  def knight(square)
+    ['knight ']
   end
 
-  def rook
-    []
+  def bishop(square)
+    ['bishop ']
   end
 
-  def queen
-    []
+  def rook(square)
+    ['rook ']
   end
 
-  def king
-    []
+  def queen(square)
+    ['queen ']
+  end
+
+  def king(square)
+    ['king ']
   end
 end
