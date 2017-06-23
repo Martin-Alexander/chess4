@@ -1,10 +1,12 @@
 require 'byebug'
 
-require_relative "models/square"
-require_relative "models/board"
-require_relative "models/move"
-require_relative "models/game_state"
+require_relative 'models/square'
+require_relative 'models/board'
+require_relative 'models/move'
+require_relative 'models/game_state'
 
-require_relative "modules/legal_moves"
+require_relative 'processes/modules/helpers'
+require_relative 'processes/modules/legal_moves_module'
+require_relative 'processes/classes/legal_moves'
 
 MODEL_VALIDATIONS = true
