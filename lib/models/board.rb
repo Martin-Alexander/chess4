@@ -9,7 +9,7 @@ class Board
         raise ArgumentError.new "board data must be of type Array" unless data.is_a?(Array)
         raise ArgumentError.new "invalid length #{data.length} for board data" unless data.length == 64
         data.each do |value|
-          validate_value(Square.new(value))
+          validate_value(Piece.new(value))
         end
       end
       @data = load_data(data)
@@ -67,7 +67,7 @@ class Board
   def load_data(pieces)
     squares = list_of_squares_symbols.reverse
     (0..63).each_with_object({}) do |i, obj|
-      obj[squares[i]] = Square.new(pieces[i])
+      obj[squares[i]] = Piece.new(pieces[i])
     end
   end
 
@@ -89,8 +89,8 @@ class Board
 
   def validate_value(value)
     if MODEL_VALIDATIONS
-      unless value.is_a? Square
-        raise ArgumentError.new "invalid value #{value} for Board. Must be of class Square"
+      unless value.is_a? Piece
+        raise ArgumentError.new "invalid value #{value} for Board. Must be of class Piece"
       end
     end
   end
