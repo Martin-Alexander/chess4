@@ -10,3 +10,4 @@ require_relative 'processes/modules/legal_moves_module'
 require_relative 'processes/classes/legal_moves'
 
 MODEL_VALIDATIONS = true
+PERFORMANCE_TESTING = true
