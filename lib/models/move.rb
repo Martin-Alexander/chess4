@@ -1,7 +1,7 @@
 class Move
   attr_reader :start, :finish, :promotion, :capture
 
-  def initialize(start, finish, promotion, capture)
+  def initialize(start, finish, promotion = false, capture = false)
     @start = start
     @finish = finish
     @promotion = promotion
