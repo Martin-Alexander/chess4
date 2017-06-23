@@ -1,4 +1,6 @@
 class GameState
+  attr_reader :board, :castling, :en_passant, :white_to_move
+
   def initialize(board, castling, en_passant, white_to_move)
     if MODEL_VALIDATIONS
       validate_board(board)
@@ -6,6 +8,10 @@ class GameState
       validate_en_passant(en_passant)
       validate_white_to_move(white_to_move)
     end
+    @board = board
+    @castling = castling
+    @en_passant = en_passant
+    @white_to_move = white_to_move
   end
 
   private
