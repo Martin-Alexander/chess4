@@ -40,7 +40,7 @@ class Board
 
   def to_s
     puts "_______B_O_A_R_D_______"
-    data_array.each do |row|
+    data_array.reverse.each do |row|
       row.each do |square| 
         if square.empty?
           print "-- "
@@ -65,15 +65,15 @@ class Board
   end
 
   def load_data(pieces)
-    squares = list_of_squares_symbols.reverse
+    squares = list_of_squares_symbols
     (0..63).each_with_object({}) do |i, obj|
       obj[squares[i]] = Piece.new(pieces[i])
     end
   end
 
   def list_of_squares_symbols
-    ('a'..'h').each_with_object([]) do |letter, obj|
-      (1..8).to_a.each { |number| obj << (letter + number.to_s).to_sym }
+    (1..8).each_with_object([]) do |number, obj|
+      ('a'..'h').to_a.each { |letter| obj << (letter + number.to_s).to_sym }
     end
   end
 
