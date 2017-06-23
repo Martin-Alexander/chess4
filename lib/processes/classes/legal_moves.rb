@@ -1,7 +1,9 @@
 class LegalMoves
-  extend LegalMovesModule
-
-  def self.find(game_state, move)
-    run(game_state, move)
+  include LegalMovesModule
+  
+  def initialize(game_state, move)
+    @game_state = game_state
+    @move = move
+    run
   end
 end
