@@ -6,11 +6,11 @@ class Move
     @finish = finish
     @promotion = promotion
     @capture = capture
-    if MODEL_VALIDATIONS
-      validate_squares
-      validate_promotion
-      validate_capture
-    end
+    # if MODEL_VALIDATIONS
+    #   validate_squares
+    #   validate_promotion
+    #   validate_capture
+    # end
   end
 
   private

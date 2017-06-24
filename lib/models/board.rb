@@ -72,8 +72,8 @@ class Board
   end
 
   def list_of_squares_symbols
-    (1..8).each_with_object([]) do |number, obj|
-      ('a'..'h').to_a.each { |letter| obj << (letter + number.to_s).to_sym }
+    [8, 7, 6, 5, 4, 3, 2, 1].each_with_object([]) do |number, obj|
+      ('a'..'h').each { |letter| obj << (letter + number.to_s).to_sym }
     end
   end
 

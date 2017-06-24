@@ -35,6 +35,10 @@ describe "board", :board do
       end
       expect(board[:a1].to_s).to eq("White Rook")
       expect(board[:h8].to_s).to eq("Black Rook")
+      expect(board[:e2].to_s).to eq("White Pawn")
+      expect(board[:d1].to_s).to eq("White Queen")
+      expect(board[:e7].to_s).to eq("Black Pawn")
+      expect(board[:d8].to_s).to eq("Black Queen")
     end
 
     it "should initialize to empty board when given ':empty'" do
