@@ -2,12 +2,27 @@ require_relative '../lib/app'
 
 describe "move", :move do
   context "initialization" do
-    it "should accept 4 arguments: start square, end square, promotion, and capture" do
-      expect { (Move.new(:a2, :a4, false, false)) }.not_to raise_error
+    let(:square_one) { Square.new(:a1) }
+    let(:square_two) { Square.new(3, 3) }
+
+    it "should accept 4 arguments (last two optional): start square, end square, promotion, and capture" do
+      expect { (Move.new(square_one, square_two, false, false)) }.not_to raise_error
+      expect { (Move.new(square_one, square_two)) }.not_to raise_error
     end
 
-    it "should requre that start square and end square be symbols" do
-      expect { (Move.new(:a1, :a2, false, false)) }.not_to raise_error
+    it "should default promotion and capture to false when not specified" do
+      move = Move.new(square_one, square_two)
+      expect(move.promotion).to be false
+      expect(move.capture).to be false
+
+      move_two = Move.new(square_one, square_two, true, true)
+      expect(move_two.promotion).to be true
+      expect(move_two.capture).to be true
+    end
+
+    it "should requre that start square and end square be Sqaure objects" do
+      expect { Move.new(square_one, square_two) }.not_to raise_error
+      expect { (Move.new(:a1, :a2, false, false)) }.to raise_error ArgumentError
       expect { (Move.new("a1", "a2", false, false)) }.to raise_error ArgumentError
     end
 
