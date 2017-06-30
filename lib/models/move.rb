@@ -13,10 +13,14 @@ class Move < Chess
     # end
   end
 
-  def to_d
-
-  
-
+  def to_s
+    if @promotion
+      "#{@start.symbol} to #{@finish.symbol} P = #{@promotion}"
+    elsif @capture
+      "#{@start.symbol} captures on #{@finish.symbol}"
+    else
+      "#{@start.symbol} to #{@finish.symbol}"
+    end
   end
 
   private
