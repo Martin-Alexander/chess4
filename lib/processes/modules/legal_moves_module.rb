@@ -44,9 +44,10 @@ module LegalMovesModule
   end
 
   def pawn(square)
+    p square
     output = []
-    move_one = @board.white_to_move ? 1 : -1
-    move_two = @board.white_to_move ? 2 : -2
+    move_one = @game_state.white_to_move ? 1 : -1
+    move_two = @game_state.white_to_move ? 2 : -2
     rank, file = square.rank, square.file
 
     if @board[rank + move_one, file].empty?
