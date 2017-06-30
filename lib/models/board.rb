@@ -39,7 +39,7 @@ class Board
   end
 
   def to_s
-    puts "_______B_O_A_R_D_______"
+    puts "_______________________"
     data_array.reverse.each do |row|
       row.each do |square| 
         if square.empty?
