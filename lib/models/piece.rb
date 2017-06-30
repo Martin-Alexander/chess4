@@ -1,4 +1,4 @@
-class Piece
+class Piece < Chess
   attr_reader :color, :piece
 
   INT_LOOKUP = {

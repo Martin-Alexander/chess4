@@ -1,4 +1,4 @@
-class Move
+class Move < Chess
   attr_reader :start, :finish, :promotion, :capture
 
   def initialize(start, finish, promotion = false, capture = false)
@@ -11,6 +11,12 @@ class Move
     #   validate_promotion
     #   validate_capture
     # end
+  end
+
+  def to_d
+
+  
+
   end
 
   private

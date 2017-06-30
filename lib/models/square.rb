@@ -1,4 +1,4 @@
-class Square
+class Square < Chess
   attr_reader :rank, :file, :symbol
 
   def initialize(rank_or_symbol, file = nil)
@@ -15,15 +15,5 @@ class Square
 
   def translate(rankfile) 
     Square.new(@rank + rankfile[:rank], @file + rankfile[:file])
-  end
-
-  private
-
-  def to_square(rank, file)
-    ((file + 96).chr + (rank).to_s).to_sym
-  end
-
-  def to_rankfile(symbol)
-    { rank: symbol.to_s[1].to_i, file: symbol.to_s[0].ord - 96 }
   end
 end

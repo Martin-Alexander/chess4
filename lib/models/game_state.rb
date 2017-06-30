@@ -1,4 +1,4 @@
-class GameState
+class GameState < Chess
   attr_reader :board, :castling, :en_passant, :white_to_move
 
   def initialize(board, castling, en_passant, white_to_move)

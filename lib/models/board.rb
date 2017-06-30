@@ -1,4 +1,4 @@
-class Board
+class Board < Chess
   def initialize(data = standard_board)
     if data == :empty
       empty_array = []
@@ -114,10 +114,6 @@ class Board
       :wp, :wp, :wp, :wp, :wp, :wp, :wp, :wp, 
       :wr, :wn, :wb, :wq, :wk, :wb, :wn, :wr
     ]
-  end
-
-  def to_square(rank, file)
-    ((file + 96).chr + (rank).to_s).to_sym
   end
 
   def print_square(square)
