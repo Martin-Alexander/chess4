@@ -1,6 +1,6 @@
 require_relative '../lib/app'
 
-describe "square" do
+describe "square", :square do
   context "initialization" do
     it "should initialize with symbol" do
       expect(Square.new(:a1).rank).to eq(1)

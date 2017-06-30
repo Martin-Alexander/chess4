@@ -20,6 +20,6 @@ class Square
   end
 
   def to_rankfile(symbol)
-    { rank: symbol.to_s[0].ord - 96, file: symbol.to_s[1].to_i }
+    { rank: symbol.to_s[1].to_i, file: symbol.to_s[0].ord - 96 }
   end
 end
