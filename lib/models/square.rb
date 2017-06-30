@@ -13,6 +13,10 @@ class Square
     end
   end
 
+  def translate(rankfile) 
+    Square.new(@rank + rankfile[:rank], @file + rankfile[:file])
+  end
+
   private
 
   def to_square(rank, file)

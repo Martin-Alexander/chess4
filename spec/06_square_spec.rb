@@ -18,4 +18,15 @@ describe "square", :square do
       expect(Square.new(2, 5).file).to eq(5)
     end
   end
+
+  context "translation" do
+    let(:initial_square) { Square.new(:a1) }
+    let(:translation_square) { initial_square.translate(rank: 1, file: 3) }
+
+    it "should take in a rank and a file tranlation and return the appropriate square" do
+      
+      expect(translation_square.rank).to eq(2)
+      expect(translation_square.file).to eq(4)
+    end
+  end
 end
