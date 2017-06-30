@@ -39,18 +39,19 @@ class Board < Chess
   end
 
   def to_s
-    puts "_______________________"
+    output = ""
+    output << "_______________________\n"
     data_array.reverse.each do |row|
       row.each do |square| 
         if square.empty?
-          print "-- "
+          output << "-- "
         else 
-          print "#{square.to_sym} "
+          output << "#{square.to_sym} "
         end
       end
-      puts
+      output << "\n"
     end
-    puts 
+    output
   end
 
   private

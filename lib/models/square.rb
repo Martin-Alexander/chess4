@@ -13,6 +13,10 @@ class Square < Chess
     end
   end
 
+  def to_s
+    @symbol.to_s
+  end
+
   def translate(rankfile) 
     Square.new(@rank + rankfile[:rank], @file + rankfile[:file])
   end
