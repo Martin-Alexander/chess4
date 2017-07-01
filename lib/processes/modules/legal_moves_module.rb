@@ -60,12 +60,12 @@ module LegalMovesModule
     # Regular capture
     left_capture = @board[rank + move_one, file - 1] rescue false
     if left_capture && !left_capture.empty? && left_capture.color != @turnplayer_color
-      
+      output << Move.new(square, square.translate(rank: move_one, file: -1), capture: true)
     end
 
     right_capture = @board[rank + move_one, file + 1] rescue false
     if right_capture && !right_capture.empty? && right_capture.color != @turnplayer_color
-      
+      output << Move.new(square, square.translate(rank: move_one, file: 1), capture: true)
     end
 
     output
