@@ -1,5 +1,5 @@
 class Move < Chess
-  attr_reader :start, :finish, :promotion, :capture
+  attr_reader :start, :finish, :promotion, :capture, :en_passant_capture, :double_advance, :castle
 
   include Comparable
 
@@ -8,6 +8,9 @@ class Move < Chess
     @finish = finish.is_a?(Square) ? finish : Square.new(finish)
     @promotion = sup[:promotion] || false
     @capture = sup[:capture] || false
+    @en_passant_capture = sup[:en_passant_capture] || false
+    @double_advance = sup[:double_advance] || false
+    @castle = sup[:castle] || false
     if MODEL_VALIDATIONS
       validate_promotion
       validate_capture
@@ -15,7 +18,25 @@ class Move < Chess
   end
 
   def <=>(other)
-    [@start.symbol, @finish.symbol, @promotion, @capture] <=> [other.start.symbol, other.finish.symbol, other.promotion, other.capture]
+    [
+      @start.symbol,
+      @finish.symbol,
+      @promotion,
+      @capture,
+      @en_passant_capture,
+      @double_advance,
+      @castle
+    ] <=> 
+    [
+      other.start.symbol,
+      other.finish.symbol,
+      other.promotion,
+      other.capture,
+      other.en_passant_capture,
+      other.double_advance,
+      other.castle
+    ]
+
   end
 
   def to_s
