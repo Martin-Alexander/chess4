@@ -11,10 +11,27 @@ class Square < Chess
       @file = to_rankfile(rank_or_symbol)[:file]
       @symbol = rank_or_symbol
     end
+    if MODEL_VALIDATIONS
+      validate_rankfile(@rank)
+      validate_rankfile(@file)
+      validate_symbol
+    end
   end
 
   def to_s
     @symbol.to_s
+  end
+
+  def validate_rankfile(rankfile)
+    unless rankfile < 9 && rankfile > 0
+      raise ArgumentError.new "invalid start square #{self.symbol.to_s}"
+    end
+  end
+
+  def validate_symbol
+    unless ('a'..'h').to_a.include?(self.symbol.to_s[0]) && (1..8).to_a.include?(self.symbol.to_s[1].to_i) && self.symbol.is_a?(Symbol)
+      raise ArgumentError.new "invalid square #{self.symbol.to_s}"
+    end
   end
 
   def translate(rankfile) 

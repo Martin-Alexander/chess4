@@ -8,11 +8,10 @@ class Move < Chess
     @finish = finish.is_a?(Square) ? finish : Square.new(finish)
     @promotion = promotion
     @capture = capture
-    # if MODEL_VALIDATIONS
-    #   validate_squares
-    #   validate_promotion
-    #   validate_capture
-    # end
+    if MODEL_VALIDATIONS
+      validate_promotion
+      validate_capture
+    end
   end
 
   def <=>(other)
@@ -30,15 +29,6 @@ class Move < Chess
   end
 
   private
-
-  def validate_squares
-    unless ('a'..'h').to_a.include?(self.start.to_s[0]) && (1..8).to_a.include?(self.start.to_s[1].to_i) && self.start.is_a?(Symbol)
-      raise ArgumentError.new "invalid start square #{self.start.to_s}"
-    end
-    unless ('a'..'h').to_a.include?(self.finish.to_s[0]) && (1..8).to_a.include?(self.finish.to_s[1].to_i) && self.finish.is_a?(Symbol)
-      raise ArgumentError.new "invalid end square #{self.finish.to_s}"
-    end
-  end
 
   def validate_promotion
     unless [:knight, :bishop, :rook, :queen, false].include?(self.promotion)
