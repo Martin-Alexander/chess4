@@ -3,11 +3,11 @@ class Move < Chess
 
   include Comparable
 
-  def initialize(start, finish, promotion = false, capture = false)
+  def initialize(start, finish, sup = {})
     @start = start.is_a?(Square) ? start : Square.new(start)
     @finish = finish.is_a?(Square) ? finish : Square.new(finish)
-    @promotion = promotion
-    @capture = capture
+    @promotion = sup[:promotion] || false
+    @capture = sup[:capture] || false
     if MODEL_VALIDATIONS
       validate_promotion
       validate_capture
