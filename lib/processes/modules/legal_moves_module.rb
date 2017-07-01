@@ -62,11 +62,18 @@ module LegalMovesModule
     if left_capture && !left_capture.empty? && left_capture.color != @turnplayer_color
       output << Move.new_pawn_move(square, square.translate(rank: move_one, file: -1), capture: true)
     end
-
     right_capture = @board[rank + move_one, file + 1] rescue false
     if right_capture && !right_capture.empty? && right_capture.color != @turnplayer_color
       output << Move.new_pawn_move(square, square.translate(rank: move_one, file: 1), capture: true)
     end
+    
+    # En passant capture
+    if left_capture && square.translate(rank: move_one, file: -1).symbol == @game_state.en_passant
+      output << Move.new_pawn_move(square, square.translate(rank: move_one, file: -1), capture: true, en_passant_capture: true)
+    end
+    if right_capture && square.translate(rank: move_one, file: 1).symbol == @game_state.en_passant
+      output << Move.new_pawn_move(square, square.translate(rank: move_one, file: 1), capture: true, en_passant_capture: true)
+    end      
 
     output.flatten
   end

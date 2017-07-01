@@ -201,5 +201,52 @@ describe "pawn", :pawn do
   end
 
   context "en passent" do
+    white_board = Board.new([
+        :em, :em, :em, :em, :em, :em, :em, :em,
+        :em, :em, :em, :em, :em, :em, :em, :em,
+        :em, :em, :em, :em, :em, :em, :em, :em,
+        :em, :em, :wp, :bp, :wp, :em, :em, :em,
+        :em, :em, :em, :em, :em, :em, :em, :em,
+        :em, :em, :em, :em, :em, :em, :em, :em,
+        :em, :em, :em, :em, :em, :em, :em, :em,
+        :em, :em, :em, :em, :em, :em, :em, :em 
+    ])
+
+    white_game = GameState.new(white_board, { wk: true, wq: true, bk: true, bq: true }, :d6, true)
+
+    let(:white_legal_moves) { LegalMoves.new(white_game).legal_moves }
+    let(:white_moves) { [
+      Move.new(:c5, :d6, capture: true, en_passant_capture: true),
+      Move.new(:e5, :d6, capture: true, en_passant_capture: true),
+      Move.new(:c5, :c6),
+      Move.new(:e5, :e6)
+     ] }
+
+    black_board = Board.new([
+        :em, :em, :em, :em, :em, :em, :em, :em,
+        :em, :em, :em, :em, :em, :em, :em, :em,
+        :em, :em, :em, :em, :em, :em, :em, :em,
+        :em, :em, :em, :em, :em, :em, :em, :em,
+        :em, :em, :bp, :wp, :bp, :em, :em, :em,
+        :em, :em, :em, :em, :em, :em, :em, :em,
+        :em, :em, :em, :em, :em, :em, :em, :em,
+        :em, :em, :em, :em, :em, :em, :em, :em  
+    ])
+
+    black_game = GameState.new(black_board, { wk: true, wq: true, bk: true, bq: true }, :d3, false)
+
+    let(:black_legal_moves) { LegalMoves.new(black_game).legal_moves }
+    let(:black_moves) { [
+      Move.new(:c4, :d3, capture: true, en_passant_capture: true),
+      Move.new(:e4, :d3, capture: true, en_passant_capture: true),
+      Move.new(:c4, :c3),
+      Move.new(:e4, :e3)
+    ] }
+
+    it "overall" do
+      expect(white_legal_moves.sort == white_moves.sort).to be true
+      expect(black_legal_moves.sort == black_moves.sort).to be true
+    end
+
   end
 end
