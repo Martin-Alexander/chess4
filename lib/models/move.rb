@@ -28,6 +28,18 @@ class Move < Chess
     end
   end
 
+  def self.new_pawn_move(start, finish, sup = {})
+    if finish.rank == 1 || finish.rank == 8
+      output = []
+      [:knight, :bishop, :rook, :queen].each do |promotion|
+        output << Move.new(start, finish, capture: sup[:capture], promotion: promotion)
+      end
+      return output
+    else
+      return Move.new(start, finish, capture: sup[:capture])
+    end
+  end
+
   private
 
   def validate_promotion

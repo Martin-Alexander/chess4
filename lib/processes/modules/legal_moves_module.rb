@@ -51,24 +51,24 @@ module LegalMovesModule
 
     # Double and single rank advance
     if (@board[rank + move_one, file] rescue false) && @board[rank + move_one, file].empty?
-      output << Move.new(square, square.translate( rank: move_one, file: 0 ))
+      output << Move.new_pawn_move(square, square.translate( rank: move_one, file: 0 ))
       if (@board[rank + move_two, file] rescue false) && ((square.rank == 2 && @turnplayer_color == :white) || (square.rank == 7 && @turnplayer_color == :black)) && @board[rank + move_two, file].empty?
-        output << Move.new(square, square.translate(rank: move_two, file: 0 ))
+        output << Move.new_pawn_move(square, square.translate(rank: move_two, file: 0 ))
       end
     end
 
     # Regular capture
     left_capture = @board[rank + move_one, file - 1] rescue false
     if left_capture && !left_capture.empty? && left_capture.color != @turnplayer_color
-      output << Move.new(square, square.translate(rank: move_one, file: -1), capture: true)
+      output << Move.new_pawn_move(square, square.translate(rank: move_one, file: -1), capture: true)
     end
 
     right_capture = @board[rank + move_one, file + 1] rescue false
     if right_capture && !right_capture.empty? && right_capture.color != @turnplayer_color
-      output << Move.new(square, square.translate(rank: move_one, file: 1), capture: true)
+      output << Move.new_pawn_move(square, square.translate(rank: move_one, file: 1), capture: true)
     end
 
-    output
+    output.flatten
   end
 
   def knight(square)
