@@ -1,9 +1,10 @@
 class LegalMoves
+  attr_reader :legal_moves
+
   include LegalMovesModule
   
-  def initialize(game_state, move)
+  def initialize(game_state)
     @game_state = game_state
-    @move = move
-    run
+    @legal_moves = run
   end
 end
