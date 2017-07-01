@@ -15,24 +15,20 @@ describe "move", :move do
       expect(move.promotion).to be false
       expect(move.capture).to be false
 
-      move_two = Move.new(square_one, square_two, true, true)
-      expect(move_two.promotion).to be true
+      move_two = Move.new(square_one, square_two, :queen, true)
+      expect(move_two.promotion).to be :queen
       expect(move_two.capture).to be true
     end
 
-    it "should requre that start square and end square be Sqaure objects" do
+    it "should requre that start square and end square be Sqaure objects or valid symbols" do
       expect { Move.new(square_one, square_two) }.not_to raise_error
-      expect { (Move.new(:a1, :a2, false, false)) }.to raise_error ArgumentError
+      expect { (Move.new(:a1, :a2, false, false)) }.not_to raise_error
       expect { (Move.new("a1", "a2", false, false)) }.to raise_error ArgumentError
+      expect { (Move.new(:a1, :a0, false, false)) }.to raise_error ArgumentError
+      expect { (Move.new(:a9, :a1, false, false)) }.to raise_error ArgumentError
+      expect { (Move.new(:i2, :a1, false, false)) }.to raise_error ArgumentError
     end
 
-    it "should require that start square and end square be valid squares" do
-      expect { (Move.new(:a1, :a2, false, false)) }.not_to raise_error
-      expect { (Move.new(:a9, :a2, false, false)) }.to raise_error ArgumentError 
-      expect { (Move.new(:i1, :a2, false, false)) }.to raise_error ArgumentError
-      expect { (Move.new(:a1, :a0, false, false)) }.to raise_error ArgumentError
-      expect { (Move.new(:a1, :k2, false, false)) }.to raise_error ArgumentError
-    end
 
     it "should requre that promotion be false or a valid piece" do
       expect { (Move.new(:a1, :a2, false, false)) }.not_to raise_error
@@ -57,8 +53,8 @@ describe "move", :move do
     it "should compare Moves based on their start square, finish square, promotion, and capture" do
       expect(Move.new(:a1, :a2) == Move.new(:a1, :a2)).to be true
       expect(Move.new(:a1, :a2) == Move.new(:a1, :a3)).to be false
-      expect(Move.new(:a1, :a2) == Move.new(:a1, :a2, true, false)).to be false
-      expect(Move.new(:a1, :a2) == Move.new(:a1, :a2, true, true)).to be false
+      expect(Move.new(:a1, :a2) == Move.new(:a1, :a2, :queen, false)).to be false
+      expect(Move.new(:a1, :a2) == Move.new(:a1, :a2, :knight, true)).to be false
     end
   end
 end
