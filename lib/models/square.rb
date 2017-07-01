@@ -1,6 +1,8 @@
 class Square < Chess
   attr_reader :rank, :file, :symbol
 
+  include Comparable 
+
   def initialize(rank_or_symbol, file = nil)
     if file
       @rank = rank_or_symbol
@@ -20,6 +22,10 @@ class Square < Chess
 
   def to_s
     @symbol.to_s
+  end
+
+  def <=>(other)
+    @symbol == other.symbol
   end
 
   def validate_rankfile(rankfile)
