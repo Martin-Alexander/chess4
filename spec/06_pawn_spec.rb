@@ -202,7 +202,4 @@ describe "pawn", :pawn do
 
   context "en passent" do
   end
-
-  context "overall" do
-  end
 end
