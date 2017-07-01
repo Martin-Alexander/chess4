@@ -25,7 +25,13 @@ class Square < Chess
   end
 
   def <=>(other)
-    @symbol == other.symbol
+    if other.is_a?(Square)
+      @symbol == other.symbol
+    elsif other.is_a?(Symbol)
+      @symbol == other
+    else
+      raise ArgumentError.new "invalid comperator #{other.class}"
+    end
   end
 
   def validate_rankfile(rankfile)
