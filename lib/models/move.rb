@@ -26,8 +26,7 @@ class Move < Chess
       @en_passant_capture,
       @double_advance,
       @castle
-    ] <=> 
-    [
+    ] <=> [
       other.start.symbol,
       other.finish.symbol,
       other.promotion,
@@ -57,7 +56,7 @@ class Move < Chess
       end
       return output
     else
-      return Move.new(start, finish, capture: sup[:capture])
+      return Move.new(start, finish, capture: sup[:capture], double_advance: sup[:double_advance], en_passant_capture: sup[:en_passant_capture])
     end
   end
 

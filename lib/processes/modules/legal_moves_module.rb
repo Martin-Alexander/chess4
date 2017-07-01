@@ -53,7 +53,7 @@ module LegalMovesModule
     if (@board[rank + move_one, file] rescue false) && @board[rank + move_one, file].empty?
       output << Move.new_pawn_move(square, square.translate( rank: move_one, file: 0 ))
       if (@board[rank + move_two, file] rescue false) && ((square.rank == 2 && @turnplayer_color == :white) || (square.rank == 7 && @turnplayer_color == :black)) && @board[rank + move_two, file].empty?
-        output << Move.new_pawn_move(square, square.translate(rank: move_two, file: 0 ))
+        output << Move.new_pawn_move(square, square.translate(rank: move_two, file: 0 ), double_advance: true)
       end
     end
 

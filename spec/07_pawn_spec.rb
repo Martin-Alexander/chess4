@@ -17,8 +17,13 @@ describe "pawn", :pawn do
     white_game = GameState.new(white_board, { wk: true, wq: true, bk: true, bq: true }, :a1, true)
 
     let(:white_legal_moves) { LegalMoves.new(white_game).legal_moves }
-    let(:white_single_advance) { [Move.new(:a2, :a3), Move.new(:b3, :b4), Move.new(:c3, :c4), Move.new(:d4, :d5)] }
-    let(:white_double_advance) { [Move.new(:a2, :a4)] }
+    let(:white_single_advance) { [
+      Move.new(:a2, :a3), 
+      Move.new(:b3, :b4), 
+      Move.new(:c3, :c4), 
+      Move.new(:d4, :d5)
+    ] }
+    let(:white_double_advance) { [Move.new(:a2, :a4, double_advance: true)] }
 
     black_board = Board.new([
       :em, :em, :em, :em, :em, :em, :em, :em,
@@ -34,8 +39,13 @@ describe "pawn", :pawn do
     black_game = GameState.new(black_board, { wk: true, wq: true, bk: true, bq: true }, :a1, false)
 
     let(:black_legal_moves) { LegalMoves.new(black_game).legal_moves }
-    let(:black_single_advance) { [Move.new(:h7, :h6), Move.new(:g6, :g5), Move.new(:f6, :f5), Move.new(:e5, :e4)] }
-    let(:black_double_advance) { [Move.new(:h7, :h5)] }
+    let(:black_single_advance) { [
+      Move.new(:h7, :h6), 
+      Move.new(:g6, :g5), 
+      Move.new(:f6, :f5), 
+      Move.new(:e5, :e4)
+    ] }
+    let(:black_double_advance) { [Move.new(:h7, :h5, double_advance: true)] }
 
     it "single advance" do
       white_single_advance.each do |move|
@@ -78,8 +88,18 @@ describe "pawn", :pawn do
     white_game = GameState.new(white_board, { wk: true, wq: true, bk: true, bq: true }, :a1, true)
 
     let(:white_legal_moves) { LegalMoves.new(white_game).legal_moves }
-    let(:white_capture) { [Move.new(:a2, :b3, capture: true), Move.new(:d3, :c4, capture: true), Move.new(:d3, :e4, capture: true), Move.new(:h6, :g7, capture: true)] }
-    let(:white_non_capture) { [Move.new(:a2, :a3), Move.new(:a2, :a4), Move.new(:d3, :d4), Move.new(:h6, :h7)] }
+    let(:white_capture) { [
+      Move.new(:a2, :b3, capture: true),
+      Move.new(:d3, :c4, capture: true),
+      Move.new(:d3, :e4, capture: true),
+      Move.new(:h6, :g7, capture: true)
+    ] }
+    let(:white_non_capture) { [
+      Move.new(:a2, :a3), 
+      Move.new(:a2, :a4, double_advance: true), 
+      Move.new(:d3, :d4), 
+      Move.new(:h6, :h7)
+    ] }
 
     black_board = Board.new([
         :em, :em, :em, :em, :em, :em, :em, :em,
@@ -95,8 +115,18 @@ describe "pawn", :pawn do
     black_game = GameState.new(black_board, { wk: true, wq: true, bk: true, bq: true }, :a1, false)
 
     let(:black_legal_moves) { LegalMoves.new(black_game).legal_moves }
-    let(:black_capture) { [Move.new(:a3, :b2, capture: true), Move.new(:e6, :d5, capture: true), Move.new(:e6, :f5, capture: true), Move.new(:h7, :g6, capture: true)] }
-    let(:black_non_capture) { [Move.new(:a3, :a2), Move.new(:h7, :h5), Move.new(:e6, :e5), Move.new(:h7, :h6)] }
+    let(:black_capture) { [
+      Move.new(:a3, :b2, capture: true),
+      Move.new(:e6, :d5, capture: true),
+      Move.new(:e6, :f5, capture: true),
+      Move.new(:h7, :g6, capture: true)
+    ] }
+    let(:black_non_capture) { [
+      Move.new(:a3, :a2),
+      Move.new(:h7, :h5, double_advance: true),
+      Move.new(:e6, :e5),
+      Move.new(:h7, :h6)
+    ] }
 
     it "diagonal capture" do
       white_capture.each do |move|
