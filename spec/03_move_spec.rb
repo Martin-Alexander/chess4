@@ -52,4 +52,13 @@ describe "move", :move do
       expect { (Move.new(:a1, :a2, false, 0)) }.to raise_error ArgumentError
     end
   end
+
+  context "comparison" do
+    it "should compare Moves based on their start square, finish square, promotion, and capture" do
+      expect(Move.new(:a1, :a2) == Move.new(:a1, :a2)).to be true
+      expect(Move.new(:a1, :a2) == Move.new(:a1, :a3)).to be false
+      expect(Move.new(:a1, :a2) == Move.new(:a1, :a2, true, false)).to be false
+      expect(Move.new(:a1, :a2) == Move.new(:a1, :a2, true, true)).to be false
+    end
+  end
 end
