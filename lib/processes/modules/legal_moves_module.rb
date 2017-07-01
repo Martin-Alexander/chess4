@@ -9,18 +9,16 @@ module LegalMovesModule
 
     turnplayer_squares.each do |square|
       moves_of(square).each do |move|
-        print move
-        # if king_safe?(move)
-        #   all_legal_moves << move
-        # end 
+        all_legal_moves << move
       end
     end
+
+    all_legal_moves.flatten
   end
 
   def setup
     @turnplayer_color = @game_state.white_to_move ? :white : :black 
     @board = @game_state.board
-    p @board.to_s
   end
 
   def turnplayer_squares
@@ -44,34 +42,52 @@ module LegalMovesModule
   end
 
   def pawn(square)
-    p square
     output = []
-    move_one = @game_state.white_to_move ? 1 : -1
-    move_two = @game_state.white_to_move ? 2 : -2
     rank, file = square.rank, square.file
 
-    if @board[rank + move_one, file].empty?
-      output << Move.new(square, square[move_one, 0])
+    # Direction indepenedent rank advance 
+    move_one = @game_state.white_to_move ? 1 : -1
+    move_two = @game_state.white_to_move ? 2 : -2
+
+    # Double and single rank advance
+    if (@board[rank + move_one, file] rescue false) && @board[rank + move_one, file].empty?
+      output << Move.new(square, square.translate( rank: move_one, file: 0 ))
+      if (@board[rank + move_two, file] rescue false) && ((square.rank == 2 && @turnplayer_color == :white) || (square.rank == 7 && @turnplayer_color == :black)) && @board[rank + move_two, file].empty?
+        output << Move.new(square, square.translate(rank: move_two, file: 0 ))
+      end
     end
+
+    # Regular capture
+    left_capture = @board[rank + move_one, file - 1] rescue false
+    if left_capture && !left_capture.empty? && left_capture.color != @turnplayer_color
+      
+    end
+
+    right_capture = @board[rank + move_one, file + 1] rescue false
+    if right_capture && !right_capture.empty? && right_capture.color != @turnplayer_color
+      
+    end
+
+    output
   end
 
   def knight(square)
-    ['knight ']
+    []
   end
 
   def bishop(square)
-    ['bishop ']
+    []
   end
 
   def rook(square)
-    ['rook ']
+    []
   end
 
   def queen(square)
-    ['queen ']
+    []
   end
 
   def king(square)
-    ['king ']
+    []
   end
 end
