@@ -53,7 +53,7 @@ describe "board", :board do
       expect(board.data.values.map{ |i| i.to_sym }).to eq(test_board)
     end
 
-    it "should requre a 64-length array" do
+    it "should require a 64-length array" do
       expect { Board.new(test_board) }.not_to raise_error
       test_board << :em
       expect { Board.new(test_board) }.to raise_error ArgumentError

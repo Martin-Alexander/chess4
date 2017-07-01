@@ -20,7 +20,7 @@ describe "move", :move do
       expect(move_two.capture).to be true
     end
 
-    it "should requre that start square and end square be Sqaure objects or valid symbols" do
+    it "should require that start square and end square be Sqaure objects or valid symbols" do
       expect { Move.new(square_one, square_two) }.not_to raise_error
       expect { (Move.new(:a1, :a2)) }.not_to raise_error
       expect { (Move.new("a1", "a2")) }.to raise_error ArgumentError
@@ -30,7 +30,7 @@ describe "move", :move do
     end
 
 
-    it "should requre that promotion be false or a valid piece" do
+    it "should require that promotion be false or a valid piece" do
       expect { (Move.new(:a1, :a2)) }.not_to raise_error
       expect { (Move.new(:a1, :a2, promotion: :knight)) }.not_to raise_error
       expect { (Move.new(:a1, :a2, promotion: :bishop)) }.not_to raise_error
@@ -42,7 +42,7 @@ describe "move", :move do
       expect { (Move.new(:a1, :a2, promotion: 0)) }.to raise_error ArgumentError
     end
 
-    it "should requre that capture be a boolean" do
+    it "should require that capture be a boolean" do
       expect { (Move.new(:a1, :a2, capture: false)) }.not_to raise_error
       expect { (Move.new(:a1, :a2, capture: true)) }.not_to raise_error
       expect { (Move.new(:a1, :a2, capture: 0)) }.to raise_error ArgumentError
