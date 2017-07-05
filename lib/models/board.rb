@@ -20,7 +20,9 @@ class Board < Chess
     if x.is_a?(Symbol) && y == false
       validate_square(x)
       @data[x]
-    else x.is_a?(Integer) && y.is_a?(Integer)
+    elsif x.is_a?(Square) && y == false
+      @data[x.symbol]
+    elsif x.is_a?(Integer) && y.is_a?(Integer)
       validate_rank_file(x, y) 
       data_array[x - 1][y - 1]
     end
