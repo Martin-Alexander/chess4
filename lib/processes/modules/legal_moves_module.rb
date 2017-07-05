@@ -1,46 +1,6 @@
 module LegalMovesModule
   include Helpers
 
-  def run
-
-    all_legal_moves = []
-
-    setup
-
-    turnplayer_squares.each do |square|
-      moves_of(square).each do |move|
-        all_legal_moves << move
-      end
-    end
-
-    all_legal_moves.flatten
-  end
-
-  def setup
-    @turnplayer_color = @game_state.white_to_move ? :white : :black 
-    @board = @game_state.board
-  end
-
-  def turnplayer_squares
-    start_time = Time.now
-
-    output = []
-    each_square do |square|
-      if @board[square].color == @turnplayer_color
-        output << Square.new(square)
-      end
-    end
-
-    output
-  end
-
-  def moves_of(square)
-    send(@board[square.symbol].piece, square)
-  end
-
-  def king_safe?
-  end
-
   def pawn(square)
     output = []
     rank, file = square.rank, square.file
@@ -91,15 +51,7 @@ module LegalMovesModule
       {rank: -1, file: -2}
     ]
 
-    knight_move_translations.each_with_object([]) do |move_translation, output|
-      if (square.translate(move_translation) rescue false)
-        if @board[square.translate(move_translation).symbol].empty?
-          output << Move.new(square, square.translate(move_translation))
-        elsif @board[square.translate(move_translation).symbol].color != @turnplayer_color
-          output << Move.new(square, square.translate(move_translation), capture: true)
-        end
-      end
-    end
+    descrete_movement(knight_move_translations, square)
   end
 
   def bishop(square)
@@ -115,6 +67,29 @@ module LegalMovesModule
   end
 
   def king(square)
-    []
+    king_move_translations = [
+      {rank: 1, file: 0},
+      {rank: 1, file: 1},
+      {rank: 1, file: -1},
+      {rank: 0, file: 1},
+      {rank: 0, file: -1},
+      {rank: -1, file: 0},
+      {rank: -1, file: 1},
+      {rank: -1, file: -1},
+    ]
+
+    descrete_movement(king_move_translations, square)
+  end
+
+  def descrete_movement(move_translations, square)
+    move_translations.each_with_object([]) do |move_translation, output|
+      if (square.translate(move_translation) rescue false)
+        if @board[square.translate(move_translation)].empty?
+          output << Move.new(square, square.translate(move_translation))
+        elsif @board[square.translate(move_translation)].color != @turnplayer_color
+          output << Move.new(square, square.translate(move_translation), capture: true)
+        end
+      end
+    end
   end
 end
