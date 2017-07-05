@@ -80,7 +80,26 @@ module LegalMovesModule
   end
 
   def knight(square)
-    []
+    knight_move_translations = [
+      {rank: 2, file: 1},
+      {rank: 2, file: -1},
+      {rank: 1, file: 2},
+      {rank: 1, file: -2},
+      {rank: -2, file: 1},
+      {rank: -2, file: -1},
+      {rank: -1, file: 2},
+      {rank: -1, file: -2}
+    ]
+
+    knight_move_translations.each_with_object([]) do |move_translation, output|
+      if square.translate(move_translation) rescue false 
+        if @board[square.translate(move_translation).symbol].empty?
+          output << Move.new(square, square.translate(move_translation))
+        elsif @board[square.translate(move_translation).symbol].color != @turnplayer_color
+          output << Move.new(square, square.translate(move_translation), capture: true)
+        end
+      end
+    end
   end
 
   def bishop(square)
