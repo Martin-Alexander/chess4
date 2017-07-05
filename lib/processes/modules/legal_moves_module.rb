@@ -92,7 +92,7 @@ module LegalMovesModule
     ]
 
     knight_move_translations.each_with_object([]) do |move_translation, output|
-      if square.translate(move_translation) rescue false 
+      if (square.translate(move_translation) rescue false)
         if @board[square.translate(move_translation).symbol].empty?
           output << Move.new(square, square.translate(move_translation))
         elsif @board[square.translate(move_translation).symbol].color != @turnplayer_color
