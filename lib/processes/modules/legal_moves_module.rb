@@ -55,7 +55,18 @@ module LegalMovesModule
   end
 
   def bishop(square)
-    []
+    output = []
+    variables = [
+      [-1, 1, [square.rank, 7 - square.file].min],
+      [-1, -1, [square.rank, square.file].min],
+      [1, -1, [7 - square.rank, square.file].min],
+      [1, 1, [7 - square.rank, 7 - square.file].min]
+    ]
+    variables.each do |i| 
+      move_along(i[0], i[1], i[2], rank, file, output, board)
+    end
+
+    output
   end
 
   def rook(square)
@@ -92,4 +103,19 @@ module LegalMovesModule
       end
     end
   end
+
+  def move_along(rank_mod, file_mod, sequence_builder, rank, file, output, board)
+    piece = board[rank][file]
+    (1..sequence_builder).each do |increment|
+      if board[rank + increment * rank_mod][file + increment * file_mod].zero?
+        output << Move.new([rank, file], [rank + increment * rank_mod, file + increment * file_mod], capture: false)
+      elsif board[rank + increment * rank_mod][file + increment * file_mod].color != piece.color
+        output << Move.new([rank, file], [rank + increment * rank_mod, file + increment * file_mod], capture: true)
+        break
+      else
+        break
+      end
+    end
+  end
+
 end
