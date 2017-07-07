@@ -69,14 +69,24 @@ module PieceMovesModule
     variables_array = [
       { rank_modifier: 1, file_modifier: 0, square_limit: 8 - square.rank},
       { rank_modifier: -1, file_modifier: 0, square_limit: square.rank - 1},
-      { rank_modifier: 0, file_modifier: -1, square_limit: square.file -1},
+      { rank_modifier: 0, file_modifier: -1, square_limit: square.file - 1},
       { rank_modifier: 0, file_modifier: 1, square_limit: 8 - square.file}
     ]
     output = variables_array.map { |variables| continuous_movement(variables, square) }.flatten
   end
 
   def queen(square)
-    []
+    variables_array = [
+      { rank_modifier: 1, file_modifier: 1, square_limit: [8 - square.rank, 8 - square.file].min},
+      { rank_modifier: -1, file_modifier: 1, square_limit: [square.rank - 1, 8 - square.file].min},
+      { rank_modifier: 1, file_modifier: -1, square_limit: [8 - square.rank, square.file - 1].min},
+      { rank_modifier: -1, file_modifier: -1, square_limit: [square.rank - 1, square.file - 1].min},
+      { rank_modifier: 1, file_modifier: 0, square_limit: 8 - square.rank},
+      { rank_modifier: -1, file_modifier: 0, square_limit: square.rank - 1},
+      { rank_modifier: 0, file_modifier: -1, square_limit: square.file - 1},
+      { rank_modifier: 0, file_modifier: 1, square_limit: 8 - square.file}
+    ]      
+    output = variables_array.map { |variables| continuous_movement(variables, square) }.flatten
   end
 
   def king(square)
@@ -88,7 +98,7 @@ module PieceMovesModule
       {rank: 0, file: -1},
       {rank: -1, file: 0},
       {rank: -1, file: 1},
-      {rank: -1, file: -1},
+      {rank: -1, file: -1}
     ]
 
     descrete_movement(king_move_translations, square)
