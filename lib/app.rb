@@ -7,9 +7,10 @@ require_relative 'models/board'
 require_relative 'models/move'
 require_relative 'models/game_state'
 
-require_relative 'processes/modules/helpers'
-require_relative 'processes/modules/legal_moves_module'
+require_relative 'processes/modules/helpers/piece_moves_helper'
+require_relative 'processes/modules/helpers/chess_helper'
+require_relative 'processes/modules/piece_moves'
+require_relative 'processes/modules/legal_moves_setup'
 require_relative 'processes/classes/legal_moves'
 
-MODEL_VALIDATIONS = true
-PERFORMANCE_TESTING = true
+require_relative 'config/flags'

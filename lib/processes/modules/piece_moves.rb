@@ -1,5 +1,6 @@
-module LegalMovesModule
-  include Helpers
+module PieceMovesModule
+  include PieceMovesHelpersModule
+  include ChessHelpersModule
 
   def pawn(square)
     output = []
@@ -57,16 +58,16 @@ module LegalMovesModule
   def bishop(square)
     output = []
     variables = [
-      [-1, 1, [square.rank, 7 - square.file].min],
-      [-1, -1, [square.rank, square.file].min],
-      [1, -1, [7 - square.rank, square.file].min],
-      [1, 1, [7 - square.rank, 7 - square.file].min]
+      { rank_incrementer: -1, file_incrementer: 1, square_limit: [square.rank, 7 - square.file].min},
+      { rank_incrementer: -1, file_incrementer: -1, square_limit: [square.rank, square.file].min},
+      { rank_incrementer: 1, file_incrementer: -1, square_limit: [7 - square.rank, square.file].min},
+      { rank_incrementer: 1, file_incrementer: 1, square_limit: [7 - square.rank, 7 - square.file].min}
     ]
     variables.each do |i| 
-      move_along(i[0], i[1], i[2], rank, file, output, board)
+      output << move_along(variables[:rank_incrementer], variables[:file_incrementer], variables[:square_limit], square)
     end
 
-    output
+    output.flatten
   end
 
   def rook(square)
@@ -91,31 +92,4 @@ module LegalMovesModule
 
     descrete_movement(king_move_translations, square)
   end
-
-  def descrete_movement(move_translations, square)
-    move_translations.each_with_object([]) do |move_translation, output|
-      if (square.translate(move_translation) rescue false)
-        if @board[square.translate(move_translation)].empty?
-          output << Move.new(square, square.translate(move_translation))
-        elsif @board[square.translate(move_translation)].color != @turnplayer_color
-          output << Move.new(square, square.translate(move_translation), capture: true)
-        end
-      end
-    end
-  end
-
-  def move_along(rank_mod, file_mod, sequence_builder, rank, file, output, board)
-    piece = board[rank][file]
-    (1..sequence_builder).each do |increment|
-      if board[rank + increment * rank_mod][file + increment * file_mod].zero?
-        output << Move.new([rank, file], [rank + increment * rank_mod, file + increment * file_mod], capture: false)
-      elsif board[rank + increment * rank_mod][file + increment * file_mod].color != piece.color
-        output << Move.new([rank, file], [rank + increment * rank_mod, file + increment * file_mod], capture: true)
-        break
-      else
-        break
-      end
-    end
-  end
-
 end

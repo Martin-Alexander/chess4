@@ -1,4 +1,5 @@
-module Helpers
+module ChessHelpersModule
+
   def each_rankfile
     (1..8).each do |rank|
       (1..8).each do |file|
