@@ -35,8 +35,11 @@ class Square < Chess
   end
 
   def validate_rankfile(rankfile)
-    unless rankfile < 9 && rankfile > 0
-      raise ArgumentError.new "invalid start square #{self.symbol.to_s}"
+    unless rankfile < 9 
+      raise ArgumentError.new "invalid rank #{self.rank}"
+    end
+    unless rankfile > 0
+      raise ArgumentError.new "invalid rank #{self.file}"
     end
   end
 
