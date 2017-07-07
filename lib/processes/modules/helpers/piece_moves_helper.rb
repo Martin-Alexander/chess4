@@ -1,6 +1,7 @@
 module PieceMovesHelpersModule
 
   def descrete_movement(move_translations, square)
+
     move_translations.each_with_object([]) do |move_translation, output|
       if (square.translate(move_translation) rescue false)
         if @board[square.translate(move_translation)].empty?
@@ -11,19 +12,29 @@ module PieceMovesHelpersModule
       end
     end
   end
-  
-  def move_along(rank_incrementer, file_mod, square_limit, starting_square)
-    # piece = board[rank][file]
+
+  def continuous_movement(variables, starting_square)
+
     output = []
-    (1..sequence_builder).each do |increment|
-      if board[rank + increment * rank_mod][file + increment * file_mod].zero?
-        output << Move.new([rank, file], [rank + increment * rank_mod, file + increment * file_mod], capture: false)
-      elsif board[rank + increment * rank_mod][file + increment * file_mod].color != piece.color
-        output << Move.new([rank, file], [rank + increment * rank_mod, file + increment * file_mod], capture: true)
+    rank_mod, file_mod, limit = continuous_movement_variables_setup(variables)
+
+    (1..limit).to_a.each do |increment|
+      current_square = starting_square.translate(rank: increment * rank_mod, file: increment * file_mod)
+
+      if @board[current_square].empty?
+        output << Move.new(starting_square, current_square)
+      elsif @board[current_square].color != @turnplayer_color
+        output << Move.new(starting_square, current_square, capture: true)
         break
       else
         break
       end
     end
+
+    output
+  end
+
+  def continuous_movement_variables_setup(variables)
+    [variables[:rank_modifier], variables[:file_modifier], variables[:square_limit]]
   end
 end
