@@ -16,4 +16,8 @@ module ChessHelpersModule
       end
     end
   end
+
+  def white_to_move
+    @game_state.white_to_move
+  end
 end
