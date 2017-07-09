@@ -21,7 +21,4 @@ module GenerateMovesSetupModule
   def moves_of(square)
     send(@board[square.symbol].piece, square)
   end
-
-  def king_safe?
-  end
 end
