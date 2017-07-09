@@ -1,4 +1,4 @@
-require_relative '../lib/app'
+require_relative '../app/app'
 
 describe "bishop", :bishop do 
   white_board = Board.new([

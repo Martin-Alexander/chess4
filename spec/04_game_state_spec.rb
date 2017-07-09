@@ -1,4 +1,4 @@
-require_relative '../lib/app'
+require_relative '../app/app'
 
 describe "game state", :game_state do
   context "initialization" do
