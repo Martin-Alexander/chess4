@@ -40,56 +40,38 @@ module PieceMovesHelpersModule
   end
 
   def pawn_can_double_advance(square, move_two)
-    # Pawn is on the right rank
     (white_to_move ? (square.rank == 2) : (square.rank == 7)) &&
-    # and second square ahead is empty
     @board[square.rank + move_two, square.file].empty?
   end
 
   def pawn_can_single_advance(square, move_one)
-    # Pawn is a valid rank (not possible due to promotion, but whatever)
     (white_to_move ? (square.rank < 8) : (square.rank > 1)) &&
-    # and square ahead is empty
     @board[square.rank + move_one, square.file].empty?
   end
 
   def pawn_can_capture_right(square, move_one)
-    # Pawn is a valid rank (not possible due to promotion, but whatever)
     (white_to_move ? (square.rank < 8) : (square.rank > 1)) &&
-    # and rightward file is on the board
     square.file < 8 &&
-    # and target square is empty
     !@board[square.rank + move_one, square.file + 1].empty? &&
-    # and the target square contains a piece of a different color to the turnplayer
     @board[square.rank + move_one, square.file + 1].color != turn_player_color
   end
 
   def pawn_can_capture_left(square, move_one)
-    # Pawn is a valid rank (not possible due to promotion, but whatever)
     (white_to_move ? (square.rank < 8) : (square.rank > 1)) &&
-    # and leftward file is on the board
     square.file > 1 &&
-    # and target square is empty
     !@board[square.rank + move_one, square.file - 1].empty? &&
-    # and the target square contains a piece of a different color to the turnplayer
     @board[square.rank + move_one, square.file - 1].color != turn_player_color
   end
 
   def pawn_can_en_passant_capture_right(square, move_one)
-        # Pawn is a valid rank (not possible due to promotion, but whatever)
     (white_to_move ? (square.rank < 8) : (square.rank > 1)) &&
-    # and rightward file is on the board
     square.file < 8 &&
-    # and target square is the en passant square
     square.translate(rank: move_one, file: 1).symbol == en_passent_square
   end
 
   def pawn_can_en_passant_capture_left(square, move_one)
-    # Pawn is a valid rank (not possible due to promotion, but whatever)
     (white_to_move ? (square.rank < 8) : (square.rank > 1)) &&
-    # and leftward file is on the board
     square.file > 1 &&   
-    # and target square is the en passant square 
     square.translate(rank: move_one, file: -1).symbol == en_passent_square
   end
 end

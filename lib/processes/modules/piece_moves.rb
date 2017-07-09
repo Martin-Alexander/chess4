@@ -6,7 +6,6 @@ module PieceMovesModule
     output = []
     move_one, move_two = direction_indepenedent_pawn_rank_advance
 
-    # Double and single rank advance
     if pawn_can_single_advance(square, move_one)
       output << Move.new_pawn_move(square, square.translate( rank: move_one, file: 0 ))
       if pawn_can_double_advance(square, move_two)
@@ -14,22 +13,18 @@ module PieceMovesModule
       end
     end
 
-    # Regular right capture
     if pawn_can_capture_right(square, move_one)
       output << Move.new_pawn_move(square, square.translate(rank: move_one, file: 1), capture: true)
     end
     
-    # Regular left capture
     if pawn_can_capture_left(square, move_one)
       output << Move.new_pawn_move(square, square.translate(rank: move_one, file: -1), capture: true)
     end
 
-    # En passant right capture
     if pawn_can_en_passant_capture_right(square, move_one)
       output << Move.new_pawn_move(square, square.translate(rank: move_one, file: 1), capture: true, en_passant_capture: true)
     end      
 
-    # En passant left capture
     if pawn_can_en_passant_capture_left(square, move_one)
       output << Move.new_pawn_move(square, square.translate(rank: move_one, file: -1), capture: true, en_passant_capture: true)
     end
