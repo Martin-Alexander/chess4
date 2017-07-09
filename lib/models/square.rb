@@ -35,11 +35,14 @@ class Square < Chess
   end
 
   def validate_rankfile(rankfile)
+    unless rankfile.is_a? Integer
+      raise ArgumentError.new "rankfile must be of type Integer. Was #{rankfile.class}"
+    end
     unless rankfile < 9 
-      raise ArgumentError.new "invalid rank #{self.rank}"
+      raise ArgumentError.new "invalid rankfile. Rank: #{self.rank}, file: #{self.file}"
     end
     unless rankfile > 0
-      raise ArgumentError.new "invalid rank #{self.file}"
+      raise ArgumentError.new "invalid rankfile. Rank: #{self.rank}, file: #{self.file}"
     end
   end
 
