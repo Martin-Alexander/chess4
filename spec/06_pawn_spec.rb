@@ -16,7 +16,7 @@ describe "pawn", :pawn do
 
     white_game = GameState.new(white_board, { wk: true, wq: true, bk: true, bq: true }, :a1, true)
 
-    let(:white_legal_moves) { LegalMoves.new(white_game).legal_moves }
+    let(:white_legal_moves) { GenerateMoves.new(white_game).legal_moves }
     let(:white_single_advance) { [
       Move.new(:a2, :a3), 
       Move.new(:b3, :b4), 
@@ -38,7 +38,7 @@ describe "pawn", :pawn do
     
     black_game = GameState.new(black_board, { wk: true, wq: true, bk: true, bq: true }, :a1, false)
 
-    let(:black_legal_moves) { LegalMoves.new(black_game).legal_moves }
+    let(:black_legal_moves) { GenerateMoves.new(black_game).legal_moves }
     let(:black_single_advance) { [
       Move.new(:h7, :h6), 
       Move.new(:g6, :g5), 
@@ -87,7 +87,7 @@ describe "pawn", :pawn do
 
     white_game = GameState.new(white_board, { wk: true, wq: true, bk: true, bq: true }, :a1, true)
 
-    let(:white_legal_moves) { LegalMoves.new(white_game).legal_moves }
+    let(:white_legal_moves) { GenerateMoves.new(white_game).legal_moves }
     let(:white_capture) { [
       Move.new(:a2, :b3, capture: true),
       Move.new(:d3, :c4, capture: true),
@@ -114,7 +114,7 @@ describe "pawn", :pawn do
 
     black_game = GameState.new(black_board, { wk: true, wq: true, bk: true, bq: true }, :a1, false)
 
-    let(:black_legal_moves) { LegalMoves.new(black_game).legal_moves }
+    let(:black_legal_moves) { GenerateMoves.new(black_game).legal_moves }
     let(:black_capture) { [
       Move.new(:a3, :b2, capture: true),
       Move.new(:e6, :d5, capture: true),
@@ -157,7 +157,7 @@ describe "pawn", :pawn do
 
     white_game = GameState.new(white_board, { wk: true, wq: true, bk: true, bq: true }, :a1, true)
 
-    let(:white_legal_moves) { LegalMoves.new(white_game).legal_moves }
+    let(:white_legal_moves) { GenerateMoves.new(white_game).legal_moves }
     let(:white_moves) { [
       Move.new(:a7, :b8, capture: true, promotion: :knight),
       Move.new(:a7, :b8, capture: true, promotion: :bishop),
@@ -182,7 +182,7 @@ describe "pawn", :pawn do
 
     black_game = GameState.new(black_board, { wk: true, wq: true, bk: true, bq: true }, :a1, false)
 
-    let(:black_legal_moves) { LegalMoves.new(black_game).legal_moves }
+    let(:black_legal_moves) { GenerateMoves.new(black_game).legal_moves }
     let(:black_moves) { [
       Move.new(:a2, :b1, capture: true, promotion: :knight),
       Move.new(:a2, :b1, capture: true, promotion: :bishop),
@@ -214,7 +214,7 @@ describe "pawn", :pawn do
 
     white_game = GameState.new(white_board, { wk: true, wq: true, bk: true, bq: true }, :d6, true)
 
-    let(:white_legal_moves) { LegalMoves.new(white_game).legal_moves }
+    let(:white_legal_moves) { GenerateMoves.new(white_game).legal_moves }
     let(:white_moves) { [
       Move.new(:c5, :d6, capture: true, en_passant_capture: true),
       Move.new(:e5, :d6, capture: true, en_passant_capture: true),
@@ -235,7 +235,7 @@ describe "pawn", :pawn do
 
     black_game = GameState.new(black_board, { wk: true, wq: true, bk: true, bq: true }, :d3, false)
 
-    let(:black_legal_moves) { LegalMoves.new(black_game).legal_moves }
+    let(:black_legal_moves) { GenerateMoves.new(black_game).legal_moves }
     let(:black_moves) { [
       Move.new(:c4, :d3, capture: true, en_passant_capture: true),
       Move.new(:e4, :d3, capture: true, en_passant_capture: true),

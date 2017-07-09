@@ -1,8 +1,8 @@
-class LegalMoves
+class GenerateMoves
   attr_reader :legal_moves
 
   include PieceMovesModule
-  include LegalMovesSetupModule
+  include GenerateMovesSetupModule
 
   def initialize(game_state)
     @game_state = game_state

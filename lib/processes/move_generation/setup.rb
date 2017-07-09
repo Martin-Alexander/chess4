@@ -1,4 +1,4 @@
-module LegalMovesSetupModule
+module GenerateMovesSetupModule
  
  def setup
     @turnplayer_color = white_to_move ? :white : :black 

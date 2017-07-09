@@ -14,7 +14,7 @@ describe "king", :king do
 
   white_game = GameState.new(white_board, { wk: true, wq: true, bk: true, bq: true }, :a1, true)
 
-  let(:white_legal_moves) { LegalMoves.new(white_game).legal_moves }
+  let(:white_legal_moves) { GenerateMoves.new(white_game).legal_moves }
   let(:white_moves) { [
     Move.new(:b2, :a1),
     Move.new(:b2, :a2),
