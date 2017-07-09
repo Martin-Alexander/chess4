@@ -1,6 +1,4 @@
 module PieceMovesModule
-  include PieceMovesHelpersModule
-  include ChessHelpersModule
 
   def pawn(square)
     output = []

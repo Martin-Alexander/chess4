@@ -1,8 +1,13 @@
 class GenerateMoves
   attr_reader :legal_moves
 
-  include PieceMovesModule
+  include ChessHelpersModule
   include GenerateMovesSetupModule
+
+  include PieceMovesModule
+  include PieceMovesHelpersModule
+
+  include MoveLegalityModule
 
   def initialize(game_state)
     @game_state = game_state
@@ -15,7 +20,7 @@ class GenerateMoves
     turnplayer_squares.each do |square|
       moves_of(square).each do |move|
       	# TODO:
-      	# if GenerateBoard.new(@board, move).king_safe?
+      	# if king_safe?(@board, move)
 	        all_legal_moves << move
         # end
       end
