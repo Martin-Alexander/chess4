@@ -4,35 +4,35 @@ module PieceMovesModule
 
   def pawn(square)
     output = []
-    rank, file = square.rank, square.file
     move_one, move_two = direction_indepenedent_pawn_rank_advance
 
     # Double and single rank advance
-
-    if pawn_can_single_advance(rank) && @board[rank + move_one, file].empty?
+    if pawn_can_single_advance(square, move_one)
       output << Move.new_pawn_move(square, square.translate( rank: move_one, file: 0 ))
-      if pawn_can_double_advance(rank, move_two)
+      if pawn_can_double_advance(square, move_two)
         output << Move.new_pawn_move(square, square.translate(rank: move_two, file: 0 ), double_advance: true)
       end
     end
 
-    # Regular capture
-    left_capture = @board[rank + move_one, file - 1] rescue false
-    if left_capture && !left_capture.empty? && left_capture.color != @turnplayer_color
-      output << Move.new_pawn_move(square, square.translate(rank: move_one, file: -1), capture: true)
-    end
-    right_capture = @board[rank + move_one, file + 1] rescue false
-    if right_capture && !right_capture.empty? && right_capture.color != @turnplayer_color
+    # Regular right capture
+    if pawn_can_capture_right(square, move_one)
       output << Move.new_pawn_move(square, square.translate(rank: move_one, file: 1), capture: true)
     end
     
-    # En passant capture
-    if left_capture && square.translate(rank: move_one, file: -1).symbol == @game_state.en_passant
-      output << Move.new_pawn_move(square, square.translate(rank: move_one, file: -1), capture: true, en_passant_capture: true)
+    # Regular left capture
+    if pawn_can_capture_left(square, move_one)
+      output << Move.new_pawn_move(square, square.translate(rank: move_one, file: -1), capture: true)
     end
-    if right_capture && square.translate(rank: move_one, file: 1).symbol == @game_state.en_passant
+
+    # En passant right capture
+    if pawn_can_en_passant_capture_right(square, move_one)
       output << Move.new_pawn_move(square, square.translate(rank: move_one, file: 1), capture: true, en_passant_capture: true)
     end      
+
+    # En passant left capture
+    if pawn_can_en_passant_capture_left(square, move_one)
+      output << Move.new_pawn_move(square, square.translate(rank: move_one, file: -1), capture: true, en_passant_capture: true)
+    end
 
     output.flatten
   end

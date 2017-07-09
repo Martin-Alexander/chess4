@@ -20,4 +20,12 @@ module ChessHelpersModule
   def white_to_move
     @game_state.white_to_move
   end
+
+  def turn_player_color
+    white_to_move ? :white : :black
+  end
+
+  def en_passent_square
+    @game_state.en_passant
+  end
 end
