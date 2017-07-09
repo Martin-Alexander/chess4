@@ -1,7 +1,7 @@
 module LegalMovesSetupModule
  
  def setup
-    @turnplayer_color = @game_state.white_to_move ? :white : :black 
+    @turnplayer_color = white_to_move ? :white : :black 
     @board = @game_state.board
   end
 
@@ -10,7 +10,7 @@ module LegalMovesSetupModule
 
     output = []
     each_square do |square|
-      if @board[square].color == @turnplayer_color
+      if @board[square].color == turn_player_color
         output << Square.new(square)
       end
     end
